@@ -1,12 +1,22 @@
+import { useState, useEffect } from 'react';
+
 function FamilyTree() {
-  const family = [
-    { name: "Robert I", relation: "Father" },
-    { name: "William the Conqueror", relation: "Self" },
-    { name: "Matilda of Flanders", relation: "Wife" },
-    { name: "Robert II", relation: "Son" },
-    { name: "William II", relation: "Son" },
-    { name: "Henry I", relation: "Son" }
-  ];
+  const [family, setFamily] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch data when component loads
+    fetch('http://localhost:8000/api/family')
+      .then(response => response.json())
+      .then(data => {
+        setFamily(data);
+        setLoading(false);
+      });
+  }, []); // Empty array = run once when component loads
+
+  if (loading) {
+    return <div>Loading family tree...</div>;
+  }
 
   return (
     <div style={{padding: '20px', border: '1px solid #ccc', margin: '20px'}}>
@@ -16,9 +26,11 @@ function FamilyTree() {
           padding: '10px',
           margin: '5px',
           backgroundColor: person.relation === 'Self' ? '#ffeb3b' : '#f5f5f5',
-          borderLeft: '4px solid #2196F3'
+          border: '4px solid #2196F3'
         }}>
           <strong>{person.name}</strong> - {person.relation}
+          <br />
+          <small>{person.born} - {person.died}</small>
         </div>
       ))}
     </div>
