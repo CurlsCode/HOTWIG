@@ -28,7 +28,7 @@ function FamilyTree() {
           backgroundColor: person.relation === 'Self' ? '#ffeb3b' : '#f5f5f5',
           border: '4px solid #2196F3'
         }}>
-          <strong>{person.name}</strong> - {person.relation}
+          <strong>{person.name}</strong>
           <br />
           <small>{person.born} - {person.died}</small>
         </div>
